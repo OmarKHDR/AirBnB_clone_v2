@@ -16,6 +16,7 @@ def teardown_method(exception):
 
 @app.route('/cities_by_states', strict_slashes=False)
 def list_cities(states):
+    """Don't forget this name"""
     if getenv("HBNB_TYPE_STORAGE") == "db":
         states = sorted(list(storage.all("State").values()), key=lambda x: x.name)
         render_template('8-cities_by_states.html', states=states)
