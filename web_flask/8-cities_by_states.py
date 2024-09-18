@@ -3,6 +3,7 @@
 from flask import Flask, render_template
 from models import *
 from models import storage
+"""Don't forget this name"""
 
 app = Flask(__name__)
 
