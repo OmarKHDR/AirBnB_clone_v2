@@ -11,12 +11,10 @@ from sqlalchemy.orm import relationship
 
 class State(BaseModel, Base):
     """Representation of state """
-    if getenv("HBNB_TYPE_STORAGE") == "db":
+    if models.storage_t == "db":
         __tablename__ = 'states'
         name = Column(String(128), nullable=False)
-        cities = relationship("City",
-                              backref="state",
-                              cascade="all, delete, delete-orphan")
+        cities = relationship("City", backref="state")
     else:
         name = ""
 
@@ -24,7 +22,7 @@ class State(BaseModel, Base):
         """initializes state"""
         super().__init__(*args, **kwargs)
 
-    if getenv("HBNB_TYPE_STORAGE") == "db":
+    if models.storage_t != "db":
         @property
         def cities(self):
             """getter for list of city instances related to the state"""

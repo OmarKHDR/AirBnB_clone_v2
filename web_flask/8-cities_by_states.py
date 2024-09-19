@@ -1,29 +1,25 @@
 #!/usr/bin/python3
-"""Don't forget this name"""
+"""
+starts a Flask web application
+"""
 
 from flask import Flask, render_template
 from models import *
 from models import storage
-
-"""Don't forget this name"""
-
 app = Flask(__name__)
 
 
+@app.route('/cities_by_states', strict_slashes=False)
+def cities_by_states():
+    """display the states and cities listed in alphabetical order"""
+    states = storage.all("State").values()
+    return render_template('8-cities_by_states.html', states=states)
+
+
 @app.teardown_appcontext
-def teardown_method(exception):
-    """Closing the database"""
+def teardown_db(exception):
+    """closes the storage on teardown"""
     storage.close()
 
-
-@app.route('/cities_by_states', strict_slashes=False)
-def list_cities(states):
-    """Don't forget this name"""
-    if getenv("HBNB_TYPE_STORAGE") == "db":
-        states = sorted(list(storage.all("State").values()), key=lambda x: x.name)
-        render_template('8-cities_by_states.html', states=states)
-
-
-if __name__ == "__main__":
-    """Don't forget this name"""
-    app.run(host='0.0.0.0')
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port='5000')
